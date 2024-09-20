@@ -1,0 +1,13 @@
+NumericDataCells-C5:D27
+ConstructionSitesCells-E5:E27
+DateCells-B5:B27
+TravelDistancesCells-F5:F27
+RefuelsDataCells-D5:D27
+ConsumptionDataCells-I5:I27
+NameCells-A2
+SatTravelCells-J5:J27
+SatConsumptionCells-K5:K27
+SatRefuelsCells-C31:C53
+SatTagCell-A3
+SourceFileLocation-D:/files/Учет топлива 0.6.xlsx
+ArchiveFolder-D:/files/
