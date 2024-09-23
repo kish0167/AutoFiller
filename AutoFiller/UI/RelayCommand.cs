@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace AutoFiller
+namespace AutoFiller.UI
 {
     public class RelayCommand : ICommand
     {

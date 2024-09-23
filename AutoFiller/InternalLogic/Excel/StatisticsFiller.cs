@@ -36,7 +36,7 @@ namespace DataTracker.Excel
                 //Logger.Log(vehicle.Name + " successfully written");
             }
             
-            Logger.Log("Statistics calculated and written.\n");
+            Logger.Log("Statistics calculated and written.");
         }
 
         private void TransferDataFromWorksheet(ExcelWorksheet worksheet, VehicleFuelStatistics statistics)

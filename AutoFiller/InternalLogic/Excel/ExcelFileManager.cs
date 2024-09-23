@@ -12,6 +12,8 @@ namespace AutoFiller.InternalLogic.Excel
 
         public ExcelPackage Package => _package;
 
+        public string ImString;
+
         public ExcelFileManager(string sourcePath, string archiveFolder)
         {
             _sourceFilePath = sourcePath;

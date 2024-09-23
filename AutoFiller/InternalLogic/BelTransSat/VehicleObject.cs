@@ -4,7 +4,12 @@ using System.Text.Json.Serialization;
 namespace ExcelParser.BelTransSat
 {
     public class VehicleObject
-    { 
+    {
+        public VehicleObject()
+        {
+            FuelInList = new List<Refuel>();
+        }
+        
         [JsonPropertyName("object_id")]
         public string ObjectId { get; set; }
         [JsonPropertyName("object_name")]
@@ -32,7 +37,7 @@ namespace ExcelParser.BelTransSat
         
         [JsonPropertyName("fuel_in_list")]
         public List<Refuel> FuelInList { get; set; }
-        
+
         [JsonPropertyName("fuel_dut_start")]
         public double? FuelDutStart { get; set; }
         [JsonPropertyName("fuel_dut_finish")]
@@ -60,22 +65,64 @@ namespace ExcelParser.BelTransSat
 
         public double? GetTravelDistance()
         {
-            if (DistanceCan == 0 || DistanceGps == 0)
+            if (DistanceGps == null && DistanceCan == null)
             {
-                return (DistanceCan + DistanceGps) / 1000;
-            } 
+                return 0f;
+            }
+
+            if (DistanceGps == null)
+            {
+                return DistanceCan;
+            }
             
-            return (DistanceCan + DistanceGps) / 2000;
+            if (DistanceCan == null)
+            {
+                return DistanceGps;
+            }
+            
+            return (DistanceGps + DistanceCan) / 2;
         }
         
         public double? GetFuelUsed()
         {
-            if (FuelDut == 0 || FuelCan == 0)
+            if (FuelDut == null && FuelCan == null)
             {
-                return FuelDut + FuelCan;
-            } 
+                return 0f;
+            }
+
+            if (FuelDut == null)
+            {
+                return FuelCan;
+            }
+            
+            if (FuelCan == null)
+            {
+                return FuelDut;
+            }
             
             return (FuelDut + FuelCan) / 2;
+        }
+
+        public double? GetMachineHours()
+        {
+            if (EngineTimeH == null)
+            {
+                return 0;
+            }
+            
+            return EngineTimeH;
+        }
+
+        public double? GetRefuel()
+        {
+            double? sum=0;
+            
+            foreach (var refuel in FuelInList)
+            {
+                sum += refuel.GetRefuelValue();
+            }
+            
+            return sum;
         }
     }
 
@@ -113,14 +160,23 @@ namespace ExcelParser.BelTransSat
     public class Refuel
     {
         [JsonPropertyName("dt")]
-        public string Dt;
+        public string Dt { get; set; }
         [JsonPropertyName("value")]
-        public double? Value;
+        public double? Value { get; set; }
         [JsonPropertyName("lat")]
-        public double? Lat;
+        public string Lat { get; set; }
         [JsonPropertyName("lon")]
-        public double? Lon;
+        public string Lon { get; set; }
         [JsonPropertyName("address")]
-        public string Address;
+        public string Address { get; set; }
+
+        public double? GetRefuelValue()
+        {
+            if (Value == null)
+            {
+                return 0;
+            }
+            return Value;
+        }
     }
 }

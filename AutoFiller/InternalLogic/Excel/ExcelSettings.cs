@@ -13,17 +13,18 @@ namespace DataTracker.Excel
         RefuelsDataCells = 4,
         ConsumptionDataCells = 5,
         NameCells = 6,
-        SatOdomCells = 7,
+        SatMachineHoursCells = 7,
         SatTravelCells = 8,
         SatConsumptionCells = 9,
         SatRefuelsCells = 10,
-        SatTagCell = 11
+        SatTagCell = 11,
+        SatSpecConsumptionCells = 12
     }
 
     public static class ExcelSettings
     {
-        private static List<string> _locationsInExcel;
-        private static string _sourceFileLocation;
+        private static List<string>? _locationsInExcel;
+        private static string _sourceFileLocation = null!;
 
         public static string SourceFileLocation => _sourceFileLocation;
         public static string ArchieveFolder => _archieveFolder;
@@ -81,7 +82,16 @@ namespace DataTracker.Excel
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatRefuelsCells]];
         }
+        
+        public static ExcelRange SatMachineHoursCells(ExcelWorksheet worksheet)
+        {
+            return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatMachineHoursCells]];
+        }
 
+        public static ExcelRange SatSpecConsumptionCells(ExcelWorksheet worksheet)
+        {
+            return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatSpecConsumptionCells]];
+        }
         
         public const int Rows = 23;
         public static readonly DateTime originDate = new DateTime(2024, 1, 1);
@@ -98,7 +108,7 @@ namespace DataTracker.Excel
         
         public static bool IsSatSpecialVehicleSheet(ExcelWorksheet worksheet)
         {
-            return IsVehicleSheet(worksheet) && worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTagCell]].GetCellValue<string>() == "sat-special";
+            return IsVehicleSheet(worksheet) && worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTagCell]].GetCellValue<string>() == "sat-spec";
         }
 
 

@@ -7,7 +7,9 @@ ConsumptionDataCells-I5:I27
 NameCells-A2
 SatTravelCells-J5:J27
 SatConsumptionCells-K5:K27
-SatRefuelsCells-C31:C53
+SatRefuelsCells-I5:I27
+SatMachineHoursCells-F5:F27
 SatTagCell-A3
-SourceFileLocation-D:/files/Учет топлива 0.6.xlsx
+SatSpecConsumptionCells-G5:G27
+SourceFileLocation-D:/files/Учет топлива 0.7.xlsx
 ArchiveFolder-D:/files/

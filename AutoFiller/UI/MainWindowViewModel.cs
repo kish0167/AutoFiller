@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using AutoFiller.InternalLogic.BelTransSat;
 using AutoFiller.InternalLogic.Excel;
-using DataTracker.BelTransSat;
 using DataTracker.Excel;
 using DataTracker.Utility;
 
-namespace AutoFiller
+namespace AutoFiller.UI
 {
     public class MainWindowViewModel
     {
