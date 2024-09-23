@@ -9,7 +9,7 @@ namespace AutoFiller.InternalLogic.Excel
         public void UpdateDates(ExcelWorkbook workbook)
         {
             DateTime firstDayOfTheMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            firstDayOfTheMonth = firstDayOfTheMonth.AddMonths(1);
+            firstDayOfTheMonth = firstDayOfTheMonth.AddMonths(2);
             foreach (var worksheet in workbook.Worksheets)
             {
                 

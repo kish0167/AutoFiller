@@ -9,17 +9,45 @@ namespace AutoFiller.InternalLogic.Excel
         {
             foreach (var worksheet in workbook.Worksheets)
             {
-                if (!ExcelSettings.IsVehicleSheet(worksheet))
+                if (ExcelSettings.IsSatSpecialVehicleSheet(worksheet))
                 {
+                    CleanSatSpecSheet(worksheet);
                     continue;
-                }   
-                //ExcelSettings.NumericDataCells(worksheet).Value = null;   TODO:   DONT FORGET
-                //ExcelSettings.ConstructionSitesCells(worksheet).Value = "-";
-                ExcelSettings.ConsumptionDataCells(worksheet).Value = 0;
-                ExcelSettings.SatTravelCells(worksheet).Value = 0;
-                ExcelSettings.SatConsumptionCells(worksheet).Value = 0;
-                ExcelSettings.ConsumptionDataCells(worksheet).Value = 0;
+                }
+
+                if (ExcelSettings.IsSatDefaultVehicleSheet(worksheet))
+                {
+                    CleanSatDefaultSheet(worksheet);
+                    continue;
+                }
+
+                if (ExcelSettings.IsVehicleSheet(worksheet))
+                {
+                    CleanVehicleSheet(worksheet);
+                }
             }
+        }
+        
+        private static void CleanSatSpecSheet(ExcelWorksheet worksheet)
+        {
+            CleanVehicleSheet(worksheet);
+            ExcelSettings.SatRefuelsCells(worksheet).Value = null;
+            ExcelSettings.SatSpecConsumptionCells(worksheet).Value = null;
+            ExcelSettings.SatMachineHoursCells(worksheet).Value = null;
+        }
+        
+        private static void CleanSatDefaultSheet(ExcelWorksheet worksheet)
+        {
+            CleanVehicleSheet(worksheet);
+            ExcelSettings.SatTravelCells(worksheet).Value = null;
+            ExcelSettings.SatConsumptionCells(worksheet).Value = null;
+        }
+
+        private static void CleanVehicleSheet(ExcelWorksheet worksheet)
+        {
+            ExcelSettings.NumericDataCells(worksheet).Value = null;
+            ExcelSettings.ConstructionSitesCells(worksheet).Value = "-";
+            ExcelSettings.ConsumptionDataCells(worksheet).Value = null;
         }
     }
 }

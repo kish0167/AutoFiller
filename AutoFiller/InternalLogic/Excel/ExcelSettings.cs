@@ -18,7 +18,8 @@ namespace DataTracker.Excel
         SatConsumptionCells = 9,
         SatRefuelsCells = 10,
         SatTagCell = 11,
-        SatSpecConsumptionCells = 12
+        SatSpecConsumptionCells = 12,
+        
     }
 
     public static class ExcelSettings

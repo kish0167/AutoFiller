@@ -72,15 +72,15 @@ namespace ExcelParser.BelTransSat
 
             if (DistanceGps == null)
             {
-                return DistanceCan;
+                return DistanceCan/1000f;
             }
             
             if (DistanceCan == null)
             {
-                return DistanceGps;
+                return DistanceGps/1000f;
             }
             
-            return (DistanceGps + DistanceCan) / 2;
+            return (DistanceGps + DistanceCan) / 2000f;
         }
         
         public double? GetFuelUsed()

@@ -4,9 +4,9 @@
         Title="Autofiller" Height="400" Width="400">
     <Grid>
         <StackPanel>
-            <Button Command="{Binding UpdateCommand}" Content="Update Data" Margin="10"/>
-            <Button Command="{Binding FillStatisticsCommand}" Content="Fill Statistics" Margin="10"/>
-            <Button Command="{Binding FillSatDataCommand}" Content="Fill Sat Data" Margin="10"/>
+            <Button Command="{Binding UpdateCommand}" Content="Заполнить таблицу на след. месяц" Margin="10"/>
+            <Button Command="{Binding FillStatisticsCommand}" Content="Заполнить статистику" Margin="10"/>
+            <Button Command="{Binding FillSatDataCommand}" Content="Заполнить данные BTS" Margin="10"/>
             
             <ListBox x:Name="LogsListBox" ItemsSource="{Binding Logs}" Margin="10" Height="200"/>
         </StackPanel>
