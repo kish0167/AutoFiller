@@ -17,6 +17,8 @@ namespace AutoFiller.InternalLogic.Excel
                 {
                     continue;
                 }
+
+                ExcelSettings.DateCells(worksheet).Value = null;
                 
                 DateTime dateBuf = firstDayOfTheMonth.AddMonths(-1);
                 int i = 0;

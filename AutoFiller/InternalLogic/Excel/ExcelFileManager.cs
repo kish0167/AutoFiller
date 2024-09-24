@@ -7,7 +7,7 @@ namespace AutoFiller.InternalLogic.Excel
     public class ExcelFileManager
     {
         private string _sourceFilePath;
-        private string _archiveFilePath;
+        private string _archiveFolder;
         private ExcelPackage _package;
 
         public ExcelPackage Package => _package;
@@ -17,13 +17,13 @@ namespace AutoFiller.InternalLogic.Excel
         public ExcelFileManager(string sourcePath, string archiveFolder)
         {
             _sourceFilePath = sourcePath;
-            _archiveFilePath = Path.Combine(archiveFolder, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".xlsx");
+            _archiveFolder = archiveFolder;
         }
 
         public ExcelFileManager(string sourcePath)
         {
             _sourceFilePath = sourcePath;
-            _archiveFilePath = "none";
+            _archiveFolder = "none";
         }
         
         public void LoadExcelFile()
@@ -35,7 +35,7 @@ namespace AutoFiller.InternalLogic.Excel
         
         public void ArchiveData()
         {
-            using (var archivePackage = new ExcelPackage(new FileInfo(_archiveFilePath)))
+            using (var archivePackage = new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".xlsx"))))
             {
                 foreach (var sourceWorksheet in Package.Workbook.Worksheets)
                 {
@@ -43,7 +43,7 @@ namespace AutoFiller.InternalLogic.Excel
                 }
 
                 archivePackage.Save();
-                Logger.Log(_archiveFilePath + " saved.\n\n");
+                Logger.Log(_archiveFolder + " saved.\n\n");
             }
         }
 

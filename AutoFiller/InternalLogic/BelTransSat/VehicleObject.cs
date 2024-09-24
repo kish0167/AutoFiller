@@ -70,12 +70,12 @@ namespace ExcelParser.BelTransSat
                 return 0f;
             }
 
-            if (DistanceGps == null)
+            if (DistanceGps == null || DistanceGps == 0f)
             {
                 return DistanceCan/1000f;
             }
             
-            if (DistanceCan == null)
+            if (DistanceCan == null || DistanceCan == 0f)
             {
                 return DistanceGps/1000f;
             }
@@ -90,12 +90,12 @@ namespace ExcelParser.BelTransSat
                 return 0f;
             }
 
-            if (FuelDut == null)
+            if (FuelDut == null || FuelDut == 0f)
             {
                 return FuelCan;
             }
             
-            if (FuelCan == null)
+            if (FuelCan == null || FuelCan == 0f)
             {
                 return FuelDut;
             }
