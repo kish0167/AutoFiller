@@ -1,8 +1,8 @@
-﻿using DataTracker.Utility;
-using ExcelParser;
+﻿using System.Windows.Media.Animation;
+using DataTracker.Utility;
 using OfficeOpenXml;
 
-namespace DataTracker.Excel
+namespace AutoFiller.InternalLogic.Excel
 {
     enum ConfigTypes
     {
@@ -19,7 +19,13 @@ namespace DataTracker.Excel
         SatRefuelsCells = 10,
         SatTagCell = 11,
         SatSpecConsumptionCells = 12,
-        
+        CalcDateCells = 13,
+        CalcTableCells = 14,
+        CalcKtuCells = 15,
+        CalcTableSheetName = 16,
+        CalcObjectSheetName = 17,
+        CalcCalcSheetName = 18,
+        CalcObjCells = 19
     }
 
     public static class ExcelSettings
@@ -95,7 +101,10 @@ namespace DataTracker.Excel
         }
         
         public const int Rows = 23;
-        public static readonly DateTime originDate = new DateTime(2024, 1, 1);
+        public static readonly DateTime OriginDate = new DateTime(2024, 1, 1);
+        public const string CalcCalcHeaders = "6E:6AAA";
+        public const string CalcCalcPeople = "C8:C100";
+        
 
         public static bool IsVehicleSheet(ExcelWorksheet worksheet)
         {
@@ -111,8 +120,43 @@ namespace DataTracker.Excel
         {
             return IsVehicleSheet(worksheet) && worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTagCell]].GetCellValue<string>() == "sat-spec";
         }
+        
+        public static ExcelRange CalcDateCells(ExcelWorksheet worksheet)
+        {
+            return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcDateCells]];
+        }
+        
+        public static ExcelRange CalcObjCells(ExcelWorksheet worksheet)
+        {
+            return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcObjCells]];
+        }
+        
+        public static ExcelRange CalcKtuCells(ExcelWorksheet worksheet)
+        {
+            return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcKtuCells]];
+        }
+        
+        public static ExcelRange CalcTableCells(ExcelWorksheet worksheet)
+        {
+            return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcTableCells]];
+        }
 
-
+        public static bool IsCalcTableSheet(ExcelWorksheet worksheet)
+        {
+            return worksheet.Name == _locationsInExcel[(int)ConfigTypes.CalcTableSheetName];
+        }
+        
+        public static bool IsCalcCalcSheet(ExcelWorksheet worksheet)
+        {
+            return worksheet.Name == _locationsInExcel[(int)ConfigTypes.CalcCalcSheetName];
+        }
+        
+        public static bool IsCalcObjectSheet(ExcelWorksheet worksheet)
+        {
+            return worksheet.Name == _locationsInExcel[(int)ConfigTypes.CalcObjectSheetName];
+        }
+        
+        
         public static void LoadSettings()
         {
             Logger.Log("Loading config file...");

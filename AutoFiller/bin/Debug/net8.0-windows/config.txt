@@ -11,5 +11,12 @@ SatRefuelsCells-I5:I27
 SatMachineHoursCells-F5:F27
 SatTagCell-A3
 SatSpecConsumptionCells-G5:G27
-SourceFileLocation-D:/files/Учет топлива 0.7.xlsx
-ArchiveFolder-D:/files/archive/
+SourceFileLocation-D:/files/Калькулятор.xlsx
+ArchiveFolder-D:/files/Tables/
+CalcDateCells-D2:AH2
+CalcTableCells-D3:AH100
+CalcKtuCells-F8:AA100
+CalcObjCells-G4:H32
+CalcTableSheetName-Табель
+CalcObjectSheetName-Объекты
+CalcCalcSheetName-Подсчет

@@ -47,6 +47,20 @@ namespace AutoFiller.InternalLogic.Excel
             }
         }
 
+        public void ArchiveData(string fileName)
+        {
+            using (var archivePackage = new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder, fileName + ".xlsx"))))
+            {
+                foreach (var sourceWorksheet in Package.Workbook.Worksheets)
+                {
+                    archivePackage.Workbook.Worksheets.Add(sourceWorksheet.Name, sourceWorksheet);
+                }
+
+                archivePackage.Save();
+                Logger.Log(_archiveFolder + fileName + " saved.\n\n");
+            }
+        }
+
         public void SaveExcelFile()
         {
             _package.Save();

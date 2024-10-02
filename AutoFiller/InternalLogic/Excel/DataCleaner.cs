@@ -1,5 +1,6 @@
 ﻿using DataTracker.Excel;
 using OfficeOpenXml;
+using static AutoFiller.InternalLogic.Excel.ExcelSettings;
 
 namespace AutoFiller.InternalLogic.Excel
 {
@@ -24,10 +25,58 @@ namespace AutoFiller.InternalLogic.Excel
                 if (ExcelSettings.IsVehicleSheet(worksheet))
                 {
                     CleanVehicleSheet(worksheet);
+                    continue;
+                }
+
+                if (ExcelSettings.IsCalcCalcSheet(worksheet))
+                {
+                    CleanCalcCalcSheet(worksheet);
+                    continue;
+                }
+                
+                if (ExcelSettings.IsCalcTableSheet(worksheet))
+                {
+                    CleanCalcTableSheet(worksheet);
+                    continue;
+                }
+                
+                if (ExcelSettings.IsCalcObjectSheet(worksheet))
+                {
+                    CleanCalcObjectSheet(worksheet);
+                    continue;
                 }
             }
         }
-        
+
+        private void CleanCalcObjectSheet(ExcelWorksheet worksheet)
+        {
+            CalcObjCells(worksheet).Value = null;
+        }
+
+        private void CleanCalcTableSheet(ExcelWorksheet worksheet)
+        {
+            CalcTableCells(worksheet).Value = null;
+        }
+
+        private void CleanCalcCalcSheet(ExcelWorksheet worksheet)
+        {
+            int i = 0;
+            while (worksheet.Cells[CalcCalcHeaders].TakeSingleCell(0,i).Value!=null)
+            {
+                int j = 0;
+                while (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null &&
+                       worksheet.Cells[CalcCalcPeople].TakeSingleCell(j+1, 0).Value != null)
+                {
+                    if (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null)
+                    {
+                        CalcKtuCells(worksheet).TakeSingleCell(j, i).Value = 1;
+                    }
+                    j++;
+                }
+                i += 3;
+            }
+        }
+
         private static void CleanSatSpecSheet(ExcelWorksheet worksheet)
         {
             CleanVehicleSheet(worksheet);
@@ -49,5 +98,8 @@ namespace AutoFiller.InternalLogic.Excel
             ExcelSettings.ConstructionSitesCells(worksheet).Value = "-";
             ExcelSettings.ConsumptionDataCells(worksheet).Value = null;
         }
+        
+        
+        
     }
 }

@@ -28,7 +28,7 @@ namespace DataTracker.Excel
 
             // Update dates
             DateUpdater dateUpdater = new DateUpdater();
-            dateUpdater.UpdateDates(workbook);
+            dateUpdater.UpdateDates(_excelFileManager);
             Logger.Log("Dates updated.");
 
             Logger.Log("Updating complete.");

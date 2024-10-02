@@ -116,7 +116,7 @@ public class SatDataFiller(ExcelFileManager manager)
 
     private bool IsValidDate(DateTime date)
     {
-        return DateTime.Compare(date, DateTime.Today) < 0 && DateTime.Compare(date, ExcelSettings.originDate) >= 0;
+        return DateTime.Compare(date, DateTime.Today) < 0 && DateTime.Compare(date, ExcelSettings.OriginDate) >= 0;
     }
     
 }
