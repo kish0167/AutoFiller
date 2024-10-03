@@ -61,10 +61,11 @@ namespace AutoFiller.InternalLogic.Excel
         private void CleanCalcCalcSheet(ExcelWorksheet worksheet)
         {
             int i = 0;
-            while (worksheet.Cells[CalcCalcHeaders].TakeSingleCell(0,i).Value!=null)
+            ExcelRange range = worksheet.Cells[CalcCalcHeaders];
+            while (range.TakeSingleCell(0,i).Formula != "")
             {
                 int j = 0;
-                while (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null &&
+                while (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null ||
                        worksheet.Cells[CalcCalcPeople].TakeSingleCell(j+1, 0).Value != null)
                 {
                     if (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null)

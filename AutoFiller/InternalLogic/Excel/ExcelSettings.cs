@@ -102,8 +102,9 @@ namespace AutoFiller.InternalLogic.Excel
         
         public const int Rows = 23;
         public static readonly DateTime OriginDate = new DateTime(2024, 1, 1);
-        public const string CalcCalcHeaders = "6E:6AAA";
+        public const string CalcCalcHeaders = "E6:AZ6";
         public const string CalcCalcPeople = "C8:C100";
+        public const string CalcMonthLabel = "C5";
         
 
         public static bool IsVehicleSheet(ExcelWorksheet worksheet)

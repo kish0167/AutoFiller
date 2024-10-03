@@ -10,8 +10,8 @@ namespace AutoFiller.InternalLogic.Excel
         {
 
             ExcelWorkbook workbook = manager.Package.Workbook;
-            //GenerateCalcs(manager, workbook);
-            //return;
+            GenerateCalcs(manager, workbook);
+            return;
             
             DateTime firstDayOfTheMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
             firstDayOfTheMonth = firstDayOfTheMonth.AddMonths(2);
@@ -50,12 +50,21 @@ namespace AutoFiller.InternalLogic.Excel
                 DateTime date2 = date;
                 foreach (var worksheet in workbook.Worksheets)
                 {
-                    if (!ExcelSettings.IsCalcTableSheet(worksheet)) continue;
-                    for (int j = 0; j < 31; j++)
+                    if (ExcelSettings.IsCalcTableSheet(worksheet))
                     {
-                        ExcelSettings.CalcDateCells(worksheet).TakeSingleCell(0, j).Value = date2;
-                        date2 = date.AddDays(j);
+                        for (int j = 0; j < 31; j++)
+                        {
+                            ExcelSettings.CalcDateCells(worksheet).TakeSingleCell(0, j).Value = date2;
+                            date2 = date.AddDays(j);
+                        }
+                        continue;
                     }
+
+                    if (ExcelSettings.IsCalcCalcSheet(worksheet))
+                    {
+                        worksheet.Cells[ExcelSettings.CalcMonthLabel].Value = date.ToString("Y");
+                    }
+                    
                 }
                 manager.ArchiveData("Табель на " + date.ToString("yyyy.MM"));
                 date = date.AddMonths(1);
