@@ -33,13 +33,13 @@ namespace AutoFiller.InternalLogic.Excel
                     CleanCalcCalcSheet(worksheet);
                     continue;
                 }
-                
+
                 if (ExcelSettings.IsCalcTableSheet(worksheet))
                 {
                     CleanCalcTableSheet(worksheet);
                     continue;
                 }
-                
+
                 if (ExcelSettings.IsCalcObjectSheet(worksheet))
                 {
                     CleanCalcObjectSheet(worksheet);
@@ -62,18 +62,20 @@ namespace AutoFiller.InternalLogic.Excel
         {
             int i = 0;
             ExcelRange range = worksheet.Cells[CalcCalcHeaders];
-            while (range.TakeSingleCell(0,i).Formula != "")
+            while (range.TakeSingleCell(0, i).Formula != "")
             {
                 int j = 0;
                 while (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null ||
-                       worksheet.Cells[CalcCalcPeople].TakeSingleCell(j+1, 0).Value != null)
+                       worksheet.Cells[CalcCalcPeople].TakeSingleCell(j + 1, 0).Value != null)
                 {
                     if (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null)
                     {
                         CalcKtuCells(worksheet).TakeSingleCell(j, i).Value = 1;
                     }
+
                     j++;
                 }
+
                 i += 3;
             }
         }
@@ -85,7 +87,7 @@ namespace AutoFiller.InternalLogic.Excel
             ExcelSettings.SatSpecConsumptionCells(worksheet).Value = null;
             ExcelSettings.SatMachineHoursCells(worksheet).Value = null;
         }
-        
+
         private static void CleanSatDefaultSheet(ExcelWorksheet worksheet)
         {
             CleanVehicleSheet(worksheet);
@@ -99,8 +101,5 @@ namespace AutoFiller.InternalLogic.Excel
             ExcelSettings.ConstructionSitesCells(worksheet).Value = "-";
             ExcelSettings.ConsumptionDataCells(worksheet).Value = null;
         }
-        
-        
-        
     }
 }

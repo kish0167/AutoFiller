@@ -8,21 +8,13 @@ namespace AutoFiller.InternalLogic.BelTransSat;
 
 public class SatDataFiller(ExcelFileManager manager)
 {
-    private readonly Dictionary<string, string> _vehiclesDictionary = new()
-    {
-        {"Case", "Case 695ST"},
-        {"Газель", "Газель АК 6826-2"},
-        {"Iveco", "ивеко АК 8561-2"},
-        {"Крафтер", "Крафтер Аl 6488-2"},
-        {"МАЗ", "МАЗ"},
-        {"Телескоп.погрузчик", "Подъёмник  8829 ВК-2"},
-        {"New Holland", "Экскаватор"}
-    };
+    
 
     public async Task Fill()
     {
         ExcelPackage package = manager.Package;
         ApiClient client = new ApiClient(GetTokenFromFile());
+        VehicleDictionary.LoadDictionary();
 
         foreach (var worksheet in package.Workbook.Worksheets)
         {
@@ -37,6 +29,7 @@ public class SatDataFiller(ExcelFileManager manager)
                 await FillSpecSheet(worksheet, client);
             }
         }
+
         Logger.Log("All satellite data loaded to file.\n");
     }
 
@@ -48,9 +41,9 @@ public class SatDataFiller(ExcelFileManager manager)
             {
                 continue;
             }
+
             await FillRowSpec(worksheet, i, client);
         }
-        
     }
 
     private async Task FillDefaultSheet(ExcelWorksheet worksheet, ApiClient client)
@@ -61,6 +54,7 @@ public class SatDataFiller(ExcelFileManager manager)
             {
                 continue;
             }
+
             await FillRowDefault(worksheet, i, client);
         }
     }
@@ -71,7 +65,7 @@ public class SatDataFiller(ExcelFileManager manager)
         ExcelSettings.SatTravelCells(worksheet).TakeSingleCell(i, 0).Value = vehicle.GetTravelDistance();
         ExcelSettings.SatConsumptionCells(worksheet).TakeSingleCell(i, 0).Value = vehicle.GetFuelUsed();
     }
-    
+
     private async Task FillRowSpec(ExcelWorksheet worksheet, int i, ApiClient client)
     {
         VehicleObject vehicle = await GetDataForRow(worksheet, i, client);
@@ -84,20 +78,20 @@ public class SatDataFiller(ExcelFileManager manager)
     {
         string vehicleName = ExcelSettings.NameCell(worksheet).GetCellValue<string>();
         DateTime currentDate = ExcelSettings.DateCells(worksheet).GetCellValue<DateTime>(i, 0);
-                
+
         if (!IsValidDate(currentDate))
         {
             return new VehicleObject();
         }
-                
+
         RootObject satDataObject = await client.GetVehiclesInfo(currentDate);
 
-        if (!_vehiclesDictionary.TryGetValue(vehicleName, out string? id))
+        if (!VehicleDictionary.Dictionary.TryGetValue(vehicleName, out string? id))
         {
             Logger.Log(vehicleName + " not found in api response");
             return new VehicleObject();
         }
-                
+
         VehicleObject vehicle = satDataObject.FindWithId(id);
         return vehicle;
     }
@@ -108,7 +102,7 @@ public class SatDataFiller(ExcelFileManager manager)
         double cell = cells.GetCellValue<double>(row, column);
         return cell != 0;
     }
-    
+
     private string GetTokenFromFile()
     {
         return TxtHandler.ReadFile("token.txt");
@@ -118,5 +112,4 @@ public class SatDataFiller(ExcelFileManager manager)
     {
         return DateTime.Compare(date, DateTime.Today) < 0 && DateTime.Compare(date, ExcelSettings.OriginDate) >= 0;
     }
-    
 }

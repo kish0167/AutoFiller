@@ -20,7 +20,7 @@ namespace DataTracker.Excel
             ExcelPackage package = _excelFileManager.Package;
             ExcelWorkbook workbook = package.Workbook;
             List<VehicleFuelStatistics> stats = new List<VehicleFuelStatistics>();
-            
+
             foreach (var worksheet in workbook.Worksheets)
             {
                 if (!ExcelSettings.IsVehicleSheet(worksheet))
@@ -30,23 +30,23 @@ namespace DataTracker.Excel
 
                 VehicleFuelStatistics vehicle = new VehicleFuelStatistics();
                 TransferDataFromWorksheet(worksheet, vehicle);
-                
+
                 vehicle.CalculateTheoryConsumption();
                 WriteConsumptionsToWorksheet(worksheet, vehicle);
                 //Logger.Log(vehicle.Name + " successfully written");
             }
-            
+
             Logger.Log("Statistics calculated and written.");
         }
 
         private void TransferDataFromWorksheet(ExcelWorksheet worksheet, VehicleFuelStatistics statistics)
         {
             statistics.Name = (string)ExcelSettings.NameCell(worksheet).Value;
-            
+
             for (int i = 0; i < ExcelSettings.Rows; i++)
             {
-                var temp = ExcelSettings.RefuelsDataCells(worksheet).GetCellValue<object>(i,0);
-                if (temp==null)
+                var temp = ExcelSettings.RefuelsDataCells(worksheet).GetCellValue<object>(i, 0);
+                if (temp == null)
                 {
                     statistics.AddRefuel(0);
                 }
@@ -54,10 +54,10 @@ namespace DataTracker.Excel
                 {
                     statistics.AddRefuel((double)temp);
                 }
-                
-                temp = ExcelSettings.TravelsDistancesCells(worksheet).GetCellValue<object>(i,0);
-                
-                if (temp==null)
+
+                temp = ExcelSettings.TravelsDistancesCells(worksheet).GetCellValue<object>(i, 0);
+
+                if (temp == null)
                 {
                     statistics.AddTravel(0);
                 }
@@ -70,9 +70,10 @@ namespace DataTracker.Excel
 
         private void WriteConsumptionsToWorksheet(ExcelWorksheet worksheet, VehicleFuelStatistics statistics)
         {
-            for (int i = 0; i < ExcelSettings.Rows && i<statistics.TheoryConsumptions.Count; i++)
+            for (int i = 0; i < ExcelSettings.Rows && i < statistics.TheoryConsumptions.Count; i++)
             {
-                ExcelSettings.ConsumptionDataCells(worksheet).TakeSingleCell(i,0).Value = statistics.TheoryConsumptions[i];
+                ExcelSettings.ConsumptionDataCells(worksheet).TakeSingleCell(i, 0).Value =
+                    statistics.TheoryConsumptions[i];
             }
         }
     }

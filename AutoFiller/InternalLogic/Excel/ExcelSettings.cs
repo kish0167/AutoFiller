@@ -37,7 +37,7 @@ namespace AutoFiller.InternalLogic.Excel
         public static string ArchieveFolder => _archieveFolder;
 
         private static string _archieveFolder;
-        
+
         private const string ConfigFileName = "config.txt";
 
         public static ExcelRange NumericDataCells(ExcelWorksheet worksheet)
@@ -74,7 +74,7 @@ namespace AutoFiller.InternalLogic.Excel
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.NameCells]];
         }
-        
+
         public static ExcelRange SatTravelCells(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTravelCells]];
@@ -84,12 +84,12 @@ namespace AutoFiller.InternalLogic.Excel
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatConsumptionCells]];
         }
-        
+
         public static ExcelRange SatRefuelsCells(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatRefuelsCells]];
         }
-        
+
         public static ExcelRange SatMachineHoursCells(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatMachineHoursCells]];
@@ -99,44 +99,47 @@ namespace AutoFiller.InternalLogic.Excel
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatSpecConsumptionCells]];
         }
-        
+
         public const int Rows = 23;
         public static readonly DateTime OriginDate = new DateTime(2024, 1, 1);
-        public const string CalcCalcHeaders = "E6:AZ6";
-        public const string CalcCalcPeople = "C8:C100";
-        public const string CalcMonthLabel = "C5";
-        
+        public const string CalcCalcHeaders = "D4:AH4";
+        public const string CalcCalcPeople = "C6:C100";
+        public const string CalcMonthLabel = "A4";
+
 
         public static bool IsVehicleSheet(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.NameCells]].Value != null;
         }
-        
+
         public static bool IsSatDefaultVehicleSheet(ExcelWorksheet worksheet)
         {
-            return IsVehicleSheet(worksheet) && worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTagCell]].GetCellValue<string>() == "sat-default";
+            return IsVehicleSheet(worksheet) &&
+                   worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTagCell]].GetCellValue<string>() ==
+                   "sat-default";
         }
-        
+
         public static bool IsSatSpecialVehicleSheet(ExcelWorksheet worksheet)
         {
-            return IsVehicleSheet(worksheet) && worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTagCell]].GetCellValue<string>() == "sat-spec";
+            return IsVehicleSheet(worksheet) &&
+                   worksheet.Cells[_locationsInExcel[(int)ConfigTypes.SatTagCell]].GetCellValue<string>() == "sat-spec";
         }
-        
+
         public static ExcelRange CalcDateCells(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcDateCells]];
         }
-        
+
         public static ExcelRange CalcObjCells(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcObjCells]];
         }
-        
+
         public static ExcelRange CalcKtuCells(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcKtuCells]];
         }
-        
+
         public static ExcelRange CalcTableCells(ExcelWorksheet worksheet)
         {
             return worksheet.Cells[_locationsInExcel[(int)ConfigTypes.CalcTableCells]];
@@ -146,18 +149,18 @@ namespace AutoFiller.InternalLogic.Excel
         {
             return worksheet.Name == _locationsInExcel[(int)ConfigTypes.CalcTableSheetName];
         }
-        
+
         public static bool IsCalcCalcSheet(ExcelWorksheet worksheet)
         {
             return worksheet.Name == _locationsInExcel[(int)ConfigTypes.CalcCalcSheetName];
         }
-        
+
         public static bool IsCalcObjectSheet(ExcelWorksheet worksheet)
         {
             return worksheet.Name == _locationsInExcel[(int)ConfigTypes.CalcObjectSheetName];
         }
-        
-        
+
+
         public static void LoadSettings()
         {
             Logger.Log("Loading config file...");
@@ -170,7 +173,7 @@ namespace AutoFiller.InternalLogic.Excel
             {
                 _locationsInExcel.Add("A1");
             }
-            
+
             foreach (string option in lines)
             {
                 foreach (var configType in Enum.GetValues(typeof(ConfigTypes)))
@@ -183,19 +186,20 @@ namespace AutoFiller.InternalLogic.Excel
                         break;
                     }
                 }
-                
+
                 if (option.Contains("SourceFileLocation"))
                 {
                     string[] separateOption = option.Replace('\r', '-').Split('-');
                     _sourceFileLocation = separateOption[1];
                 }
-                                    
+
                 if (option.Contains("ArchiveFolder"))
                 {
                     string[] separateOption = option.Replace('\r', '-').Split('-');
                     _archieveFolder = separateOption[1];
                 }
             }
+
             Logger.Log("Configs loaded.");
         }
     }

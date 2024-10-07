@@ -6,6 +6,7 @@ namespace DataTracker.Internal
     public class VehicleFuelStatistics
     {
         private string _name;
+
         public string Name
         {
             get => _name;
@@ -39,7 +40,7 @@ namespace DataTracker.Internal
         {
             _refuels.Add(value);
         }
-        
+
         public void AddTravel(double value)
         {
             _travelsDistances.Add(value);
@@ -60,24 +61,24 @@ namespace DataTracker.Internal
             double volumeBuf = 0;
             double distanceBuf = 0;
             int lastRefuelIndex = 0;
-            
+
             for (int i = 0; i < _refuels.Count; i++)
             {
                 if (_refuels[i] != 0)
-                { 
-                   if (distanceBuf != 0)
-                   {
-                       consumptionBuf = volumeBuf * 100 / distanceBuf;
-                   }
+                {
+                    if (distanceBuf != 0)
+                    {
+                        consumptionBuf = volumeBuf * 100 / distanceBuf;
+                    }
 
-                   for (int j = 0; j < i-lastRefuelIndex; j++)
-                   {
-                       _theoryConsumptions.Add(consumptionBuf);
-                   }
-                   
-                   lastRefuelIndex = i;
-                   volumeBuf = _refuels[i];
-                   distanceBuf = _travelsDistances[i];
+                    for (int j = 0; j < i - lastRefuelIndex; j++)
+                    {
+                        _theoryConsumptions.Add(consumptionBuf);
+                    }
+
+                    lastRefuelIndex = i;
+                    volumeBuf = _refuels[i];
+                    distanceBuf = _travelsDistances[i];
                 }
                 else
                 {

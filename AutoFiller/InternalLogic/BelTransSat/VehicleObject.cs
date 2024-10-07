@@ -1,5 +1,4 @@
-﻿
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ExcelParser.BelTransSat
 {
@@ -9,59 +8,34 @@ namespace ExcelParser.BelTransSat
         {
             FuelInList = new List<Refuel>();
         }
-        
-        [JsonPropertyName("object_id")]
-        public string ObjectId { get; set; }
-        [JsonPropertyName("object_name")]
-        public string ObjectName { get; set; }
-        [JsonPropertyName("object_uid")]
-        public string ObjectUid { get; set; }
-        [JsonPropertyName("distance_gps")]
-        public double? DistanceGps { get; set; }
-        [JsonPropertyName("distance_can")] 
-        public double? DistanceCan { get; set; }
-        [JsonPropertyName("run_time")]
-        public double? RunTime { get; set; }
-        [JsonPropertyName("run_time_str")]
-        public string RunTimeStr { get; set; }
-        [JsonPropertyName("stop_time")]
-        public double? StopTime { get; set; }
-        [JsonPropertyName("stop_time_str")]
-        public string StopTimeStr { get; set; }
-        [JsonPropertyName("max_speed")]
-        public double? MaxSpeed { get; set; }
-        [JsonPropertyName("fuel_can")]
-        public double? FuelCan { get; set; }
-        [JsonPropertyName("fuel_dut")]
-        public double? FuelDut { get; set; }
-        
-        [JsonPropertyName("fuel_in_list")]
-        public List<Refuel> FuelInList { get; set; }
 
-        [JsonPropertyName("fuel_dut_start")]
-        public double? FuelDutStart { get; set; }
-        [JsonPropertyName("fuel_dut_finish")]
-        public double? FuelDutFinish { get; set; }
-        [JsonPropertyName("odom_start")]
-        public double? OdomStart { get; set; }
-        [JsonPropertyName("s_odo_dt")]
-        public string SOdoDt { get; set; }
-        [JsonPropertyName("odom_finish")]
-        public double? OdomFinish { get; set; }
-        [JsonPropertyName("e_odo_dt")]
-        public string EOdoDt { get; set; }
-        [JsonPropertyName("avg_speed_gps")]
-        public double? AvgSpeedGps { get; set; }
-        [JsonPropertyName("avg_speed_can")]
-        public double? AvgSpeedCan { get; set; }
-        [JsonPropertyName("avg_fuel_can")]
-        public double? AvgFuelCan { get; set; }
-        [JsonPropertyName("avg_fuel_dut")]
-        public double? AvgFuelDut { get; set; }
-        [JsonPropertyName("fuel_can_stop")]
-        public double? FuelCanStop { get; set; }
-        [JsonPropertyName("engine_time_h")]
-        public double? EngineTimeH { get; set; }
+        [JsonPropertyName("object_id")] public string ObjectId { get; set; }
+        [JsonPropertyName("object_name")] public string ObjectName { get; set; }
+        [JsonPropertyName("object_uid")] public string ObjectUid { get; set; }
+        [JsonPropertyName("distance_gps")] public double? DistanceGps { get; set; }
+        [JsonPropertyName("distance_can")] public double? DistanceCan { get; set; }
+        [JsonPropertyName("run_time")] public double? RunTime { get; set; }
+        [JsonPropertyName("run_time_str")] public string RunTimeStr { get; set; }
+        [JsonPropertyName("stop_time")] public double? StopTime { get; set; }
+        [JsonPropertyName("stop_time_str")] public string StopTimeStr { get; set; }
+        [JsonPropertyName("max_speed")] public double? MaxSpeed { get; set; }
+        [JsonPropertyName("fuel_can")] public double? FuelCan { get; set; }
+        [JsonPropertyName("fuel_dut")] public double? FuelDut { get; set; }
+
+        [JsonPropertyName("fuel_in_list")] public List<Refuel> FuelInList { get; set; }
+
+        [JsonPropertyName("fuel_dut_start")] public double? FuelDutStart { get; set; }
+        [JsonPropertyName("fuel_dut_finish")] public double? FuelDutFinish { get; set; }
+        [JsonPropertyName("odom_start")] public double? OdomStart { get; set; }
+        [JsonPropertyName("s_odo_dt")] public string SOdoDt { get; set; }
+        [JsonPropertyName("odom_finish")] public double? OdomFinish { get; set; }
+        [JsonPropertyName("e_odo_dt")] public string EOdoDt { get; set; }
+        [JsonPropertyName("avg_speed_gps")] public double? AvgSpeedGps { get; set; }
+        [JsonPropertyName("avg_speed_can")] public double? AvgSpeedCan { get; set; }
+        [JsonPropertyName("avg_fuel_can")] public double? AvgFuelCan { get; set; }
+        [JsonPropertyName("avg_fuel_dut")] public double? AvgFuelDut { get; set; }
+        [JsonPropertyName("fuel_can_stop")] public double? FuelCanStop { get; set; }
+        [JsonPropertyName("engine_time_h")] public double? EngineTimeH { get; set; }
 
         public double? GetTravelDistance()
         {
@@ -72,17 +46,17 @@ namespace ExcelParser.BelTransSat
 
             if (DistanceGps == null || DistanceGps == 0f)
             {
-                return DistanceCan/1000f;
+                return DistanceCan / 1000f;
             }
-            
+
             if (DistanceCan == null || DistanceCan == 0f)
             {
-                return DistanceGps/1000f;
+                return DistanceGps / 1000f;
             }
-            
+
             return (DistanceGps + DistanceCan) / 2000f;
         }
-        
+
         public double? GetFuelUsed()
         {
             if (FuelDut == null && FuelCan == null)
@@ -94,12 +68,12 @@ namespace ExcelParser.BelTransSat
             {
                 return FuelCan;
             }
-            
+
             if (FuelCan == null || FuelCan == 0f)
             {
                 return FuelDut;
             }
-            
+
             return (FuelDut + FuelCan) / 2;
         }
 
@@ -109,27 +83,26 @@ namespace ExcelParser.BelTransSat
             {
                 return 0;
             }
-            
+
             return EngineTimeH;
         }
 
         public double? GetRefuel()
         {
-            double? sum=0;
-            
+            double? sum = 0;
+
             foreach (var refuel in FuelInList)
             {
                 sum += refuel.GetRefuelValue();
             }
-            
+
             return sum;
         }
     }
 
     public class RootObject
     {
-        [JsonPropertyName("root")]
-        public ResultWrapper RootWrapper { get; set; }
+        [JsonPropertyName("root")] public ResultWrapper RootWrapper { get; set; }
 
         public VehicleObject FindWithId(string id)
         {
@@ -147,28 +120,21 @@ namespace ExcelParser.BelTransSat
 
     public class ResultWrapper
     {
-        [JsonPropertyName("result")]
-        public Result Result { get; set; }
+        [JsonPropertyName("result")] public Result Result { get; set; }
     }
 
     public class Result
     {
-        [JsonPropertyName("items")]
-        public List<VehicleObject> Items { get; set; }
+        [JsonPropertyName("items")] public List<VehicleObject> Items { get; set; }
     }
 
     public class Refuel
     {
-        [JsonPropertyName("dt")]
-        public string Dt { get; set; }
-        [JsonPropertyName("value")]
-        public double? Value { get; set; }
-        [JsonPropertyName("lat")]
-        public string Lat { get; set; }
-        [JsonPropertyName("lon")]
-        public string Lon { get; set; }
-        [JsonPropertyName("address")]
-        public string Address { get; set; }
+        [JsonPropertyName("dt")] public string Dt { get; set; }
+        [JsonPropertyName("value")] public double? Value { get; set; }
+        [JsonPropertyName("lat")] public string Lat { get; set; }
+        [JsonPropertyName("lon")] public string Lon { get; set; }
+        [JsonPropertyName("address")] public string Address { get; set; }
 
         public double? GetRefuelValue()
         {
@@ -176,6 +142,7 @@ namespace ExcelParser.BelTransSat
             {
                 return 0;
             }
+
             return Value;
         }
     }

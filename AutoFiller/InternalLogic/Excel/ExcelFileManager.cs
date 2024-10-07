@@ -25,17 +25,18 @@ namespace AutoFiller.InternalLogic.Excel
             _sourceFilePath = sourcePath;
             _archiveFolder = "none";
         }
-        
+
         public void LoadExcelFile()
         {
             _package = new ExcelPackage(new FileInfo(_sourceFilePath));
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             Logger.Log(_sourceFilePath + " loaded.");
         }
-        
+
         public void ArchiveData()
         {
-            using (var archivePackage = new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".xlsx"))))
+            using (var archivePackage = new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder,
+                       DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".xlsx"))))
             {
                 foreach (var sourceWorksheet in Package.Workbook.Worksheets)
                 {
@@ -49,7 +50,8 @@ namespace AutoFiller.InternalLogic.Excel
 
         public void ArchiveData(string fileName)
         {
-            using (var archivePackage = new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder, fileName + ".xlsx"))))
+            using (var archivePackage =
+                   new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder, fileName + ".xlsx"))))
             {
                 foreach (var sourceWorksheet in Package.Workbook.Worksheets)
                 {

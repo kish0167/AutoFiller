@@ -6,7 +6,7 @@ namespace ExcelParser.BelTransSat;
 
 enum RequestType
 {
-    OBJECT_STAT_DATA =0
+    OBJECT_STAT_DATA = 0
 }
 
 public class ApiClient
@@ -14,7 +14,7 @@ public class ApiClient
     private HttpClient _httpClient;
     private string _token;
     private List<Response> _responsesPool;
-   
+
 
     public ApiClient(string token)
     {
@@ -25,7 +25,6 @@ public class ApiClient
 
     public async Task<RootObject> GetVehiclesInfo(DateTime date)
     {
-
         foreach (Response oldResponce in _responsesPool)
         {
             if (oldResponce.ResponseDate == date)
@@ -34,17 +33,17 @@ public class ApiClient
                 return oldResponce.ResponseObject;
             }
         }
-        
+
         Logger.Log("\tCalling BTS...");
         string URL = GenerateURL(date, RequestType.OBJECT_STAT_DATA);
         HttpResponseMessage response = await _httpClient.GetAsync(URL);
-        
+
         if (response.IsSuccessStatusCode)
         {
             Logger.Log("\tResponse acquired for date: " + date.ToString("yyyy-MM-dd") + "\n");
             string jsonResponse = await response.Content.ReadAsStringAsync();
             RootObject rootObject = JsonSerializer.Deserialize<RootObject>(jsonResponse);
-            _responsesPool.Add(new Response(date,rootObject));
+            _responsesPool.Add(new Response(date, rootObject));
             return rootObject;
         }
         else
@@ -63,8 +62,8 @@ public class ApiClient
         string url = begin + type + token + from + to + "&output=json";
         return url;
     }
-    
-    
+
+
     private class Response
     {
         public DateTime ResponseDate;
@@ -77,4 +76,3 @@ public class ApiClient
         }
     }
 }
-

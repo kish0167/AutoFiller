@@ -18,7 +18,8 @@ namespace AutoFiller.UI
         public ICommand FillStatisticsCommand { get; }
         public ICommand FillSatDataCommand { get; }
 
-        public MainWindowViewModel(ExcelFileManager excelFileManager, MonthlyFileUpdater monthlyFileUpdater, StatisticsFiller statisticsFiller, SatDataFiller satDataFiller)
+        public MainWindowViewModel(ExcelFileManager excelFileManager, MonthlyFileUpdater monthlyFileUpdater,
+            StatisticsFiller statisticsFiller, SatDataFiller satDataFiller)
         {
             _excelFileManager = excelFileManager;
             _monthlyFileUpdater = monthlyFileUpdater;
@@ -48,7 +49,7 @@ namespace AutoFiller.UI
             await _satDataFiller.Fill();
             _excelFileManager.SaveExcelFile();
         }
-        
+
         public ObservableCollection<string> Logs => Logger.Logs;
     }
 }

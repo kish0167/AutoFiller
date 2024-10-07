@@ -8,17 +8,17 @@ namespace DataTracker.Excel
     public class MonthlyFileUpdater
     {
         private ExcelFileManager _excelFileManager;
+
         public MonthlyFileUpdater(ExcelFileManager manager)
         {
             _excelFileManager = manager;
         }
-        
+
         public void Update()
         {
-            
             Logger.Log("Starting updating process...");
             ExcelWorkbook workbook = _excelFileManager.Package.Workbook;
-            
+
             _excelFileManager.ArchiveData();
 
             // Clean old data

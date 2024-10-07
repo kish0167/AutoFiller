@@ -9,7 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="InternalLogic\BelTransSat\" />
       <Folder Include="InternalLogic\Excel\" />
       <Folder Include="InternalLogic\Internal\" />
       <Folder Include="InternalLogic\Utility\" />

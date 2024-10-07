@@ -19,13 +19,13 @@ namespace AutoFiller.UI
             MonthlyFileUpdater updater = new MonthlyFileUpdater(excelFileManager);
             StatisticsFiller statisticsFiller = new StatisticsFiller(excelFileManager);
             SatDataFiller satDataFiller = new SatDataFiller(excelFileManager);
-            
+
             MainWindow mainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(excelFileManager, updater, statisticsFiller, satDataFiller)
             };
-            
-            
+
+
             mainWindow.Show();
         }
     }

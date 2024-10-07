@@ -9,12 +9,12 @@ namespace DataTracker.Utility
         {
             string exeDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string configFilePath = Path.Combine(exeDirectory, fileName);
-            
+
             if (File.Exists(configFilePath))
             {
                 return File.ReadAllText(configFilePath);
             }
-           
+
             Logger.Log(fileName + " failed to load!");
             return "";
         }
