@@ -9,20 +9,28 @@ namespace AutoFiller.InternalLogic.Excel
         public void UpdateDates(ExcelFileManager manager)
         {
             ExcelWorkbook workbook = manager.Package.Workbook;
-            //GenerateCalcs(manager, workbook);
-            //return;
 
+            if (ExcelSettings.IsGeneratingTables())
+            {
+               GenerateCalcs(manager, workbook);
+               return;
+            }
+            
             DateTime firstDayOfTheMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            firstDayOfTheMonth = firstDayOfTheMonth.AddMonths(1);
+            
+            if (DateTime.Today.Day >= 15)
+            {
+                firstDayOfTheMonth = firstDayOfTheMonth.AddMonths(1);
+            }
+            
             foreach (var worksheet in workbook.Worksheets)
             {
                 if (!ExcelSettings.IsVehicleSheet(worksheet))
                 {
                     continue;
                 }
-
-                //WriteNewDates(worksheet, firstDayOfTheMonth);
-                WriteNewDates(worksheet, firstDayOfTheMonth.AddMonths(1));
+                
+                WriteNewDates(worksheet, firstDayOfTheMonth);
             }
         }
 
@@ -30,7 +38,8 @@ namespace AutoFiller.InternalLogic.Excel
         {
             ExcelSettings.DateCells(worksheet).Value = null;
 
-            DateTime dateBuf = firstDayOfTheMonth.AddMonths(-1);
+            DateTime dateBuf = firstDayOfTheMonth;
+            //.AddMonths(-1);
             int i = 0;
             while (dateBuf < firstDayOfTheMonth)
             {

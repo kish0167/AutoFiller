@@ -20,23 +20,32 @@ namespace AutoFiller.InternalLogic.Excel
             _archiveFolder = archiveFolder;
         }
 
-        public ExcelFileManager(string sourcePath)
+        public ExcelFileManager(string sourcePath, ExcelPackage package, string imString)
         {
             _sourceFilePath = sourcePath;
+            _package = package;
+            ImString = imString;
             _archiveFolder = "none";
         }
 
         public void LoadExcelFile()
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             _package = new ExcelPackage(new FileInfo(_sourceFilePath));
+            
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             Logger.Log(_sourceFilePath + " loaded.");
         }
 
         public void ArchiveData()
         {
+            string archivePath = Path.Combine(_archiveFolder,"autoSave-" + 
+                DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ExcelSettings.Extension());
+            File.WriteAllBytes(archivePath, Package.GetAsByteArray());
+            Logger.Log("source archived.");
+            return;
             using (var archivePackage = new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder,
-                       DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".xlsx"))))
+                       DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ExcelSettings.Extension()))))
             {
                 foreach (var sourceWorksheet in Package.Workbook.Worksheets)
                 {
@@ -50,8 +59,14 @@ namespace AutoFiller.InternalLogic.Excel
 
         public void ArchiveData(string fileName)
         {
+            string archivePath = Path.Combine(_archiveFolder, fileName + ExcelSettings.Extension());
+            File.WriteAllBytes(archivePath, Package.GetAsByteArray());
+            Logger.Log(_archiveFolder + fileName + " saved.");
+            return;
+            
+            
             using (var archivePackage =
-                   new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder, fileName + ".xlsx"))))
+                   new ExcelPackage(new FileInfo(Path.Combine(_archiveFolder, fileName + ExcelSettings.Extension()))))
             {
                 foreach (var sourceWorksheet in Package.Workbook.Worksheets)
                 {
@@ -66,7 +81,7 @@ namespace AutoFiller.InternalLogic.Excel
         public void SaveExcelFile()
         {
             _package.Save();
-            Logger.Log(_sourceFilePath + " saved.\n\n");
+            Logger.Log(_sourceFilePath + " saved.");
         }
     }
 }

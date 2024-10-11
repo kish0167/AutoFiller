@@ -60,9 +60,7 @@ namespace AutoFiller.InternalLogic.Excel
 
         private void CleanCalcCalcSheet(ExcelWorksheet worksheet)
         {
-            int i = 0;
-            ExcelRange range = worksheet.Cells[CalcCalcHeaders];
-            while (range.TakeSingleCell(0, i).Formula != "")
+            for(int i=0; i<CalcKtuCells(worksheet).Columns; i+=3)
             {
                 int j = 0;
                 while (worksheet.Cells[CalcCalcPeople].TakeSingleCell(j, 0).Value != null ||
@@ -75,31 +73,29 @@ namespace AutoFiller.InternalLogic.Excel
 
                     j++;
                 }
-
-                i += 3;
             }
         }
 
         private static void CleanSatSpecSheet(ExcelWorksheet worksheet)
         {
             CleanVehicleSheet(worksheet);
-            ExcelSettings.SatRefuelsCells(worksheet).Value = null;
-            ExcelSettings.SatSpecConsumptionCells(worksheet).Value = null;
-            ExcelSettings.SatMachineHoursCells(worksheet).Value = null;
+            SatRefuelsCells(worksheet).Value = null;
+            SatSpecConsumptionCells(worksheet).Value = null;
+            SatMachineHoursCells(worksheet).Value = null;
         }
 
         private static void CleanSatDefaultSheet(ExcelWorksheet worksheet)
         {
             CleanVehicleSheet(worksheet);
-            ExcelSettings.SatTravelCells(worksheet).Value = null;
-            ExcelSettings.SatConsumptionCells(worksheet).Value = null;
+            SatTravelCells(worksheet).Value = null;
+            SatConsumptionCells(worksheet).Value = null;
         }
 
         private static void CleanVehicleSheet(ExcelWorksheet worksheet)
         {
-            ExcelSettings.NumericDataCells(worksheet).Value = null;
-            ExcelSettings.ConstructionSitesCells(worksheet).Value = "-";
-            ExcelSettings.ConsumptionDataCells(worksheet).Value = null;
+            NumericDataCells(worksheet).Value = null;
+            ConstructionSitesCells(worksheet).Value = "-";
+            ConsumptionDataCells(worksheet).Value = null;
         }
     }
 }

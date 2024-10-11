@@ -35,17 +35,28 @@ namespace AutoFiller.UI
         private void Update()
         {
             _monthlyFileUpdater.Update();
-            _excelFileManager.SaveExcelFile();
+            if (!ExcelSettings.IsGeneratingTables())
+            {
+                _excelFileManager.SaveExcelFile();
+            }
         }
 
         private void FillStatistics()
         {
+            if (ExcelSettings.IsGeneratingTables())
+            {
+                return;
+            }
             _statisticsFiller.FillStatistics();
             _excelFileManager.SaveExcelFile();
         }
 
         private async Task FillSatData()
         {
+            if (ExcelSettings.IsGeneratingTables())
+            {
+                return;
+            }
             await _satDataFiller.Fill();
             _excelFileManager.SaveExcelFile();
         }
