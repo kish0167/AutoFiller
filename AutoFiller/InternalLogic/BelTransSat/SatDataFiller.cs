@@ -1,5 +1,4 @@
 ﻿using AutoFiller.InternalLogic.Excel;
-using DataTracker.Excel;
 using DataTracker.Utility;
 using ExcelParser.BelTransSat;
 using OfficeOpenXml;
@@ -30,7 +29,7 @@ public class SatDataFiller(ExcelFileManager manager)
             }
         }
 
-        Logger.Log("All satellite data loaded to file.\n");
+        Logger.Log("All satellite data loaded to file.");
     }
 
     private async Task FillSpecSheet(ExcelWorksheet worksheet, ApiClient client)

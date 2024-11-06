@@ -27,9 +27,9 @@ namespace ExcelParser.BelTransSat
         [JsonPropertyName("fuel_dut_start")] public double? FuelDutStart { get; set; }
         [JsonPropertyName("fuel_dut_finish")] public double? FuelDutFinish { get; set; }
         [JsonPropertyName("odom_start")] public double? OdomStart { get; set; }
-        [JsonPropertyName("s_odo_dt")] public string SOdoDt { get; set; }
+        [JsonPropertyName("s_odo_dt")] public double? SOdoDt { get; set; }
         [JsonPropertyName("odom_finish")] public double? OdomFinish { get; set; }
-        [JsonPropertyName("e_odo_dt")] public string EOdoDt { get; set; }
+        [JsonPropertyName("e_odo_dt")] public double? EOdoDt { get; set; }
         [JsonPropertyName("avg_speed_gps")] public double? AvgSpeedGps { get; set; }
         [JsonPropertyName("avg_speed_can")] public double? AvgSpeedCan { get; set; }
         [JsonPropertyName("avg_fuel_can")] public double? AvgFuelCan { get; set; }
@@ -132,8 +132,8 @@ namespace ExcelParser.BelTransSat
     {
         [JsonPropertyName("dt")] public string Dt { get; set; }
         [JsonPropertyName("value")] public double? Value { get; set; }
-        [JsonPropertyName("lat")] public string Lat { get; set; }
-        [JsonPropertyName("lon")] public string Lon { get; set; }
+        [JsonPropertyName("lat")] public double? Lat { get; set; }
+        [JsonPropertyName("lon")] public double? Lon { get; set; }
         [JsonPropertyName("address")] public string Address { get; set; }
 
         public double? GetRefuelValue()

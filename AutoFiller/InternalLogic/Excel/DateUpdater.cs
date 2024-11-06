@@ -1,5 +1,4 @@
-﻿using DataTracker.Excel;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 
 namespace AutoFiller.InternalLogic.Excel
 {
@@ -41,7 +40,7 @@ namespace AutoFiller.InternalLogic.Excel
             DateTime dateBuf = firstDayOfTheMonth;
             //.AddMonths(-1);
             int i = 0;
-            while (dateBuf < firstDayOfTheMonth)
+            while (dateBuf < firstDayOfTheMonth.AddMonths(1))
             {
                 if (dateBuf.DayOfWeek.Equals(DayOfWeek.Saturday) || dateBuf.DayOfWeek.Equals(DayOfWeek.Sunday))
                 {

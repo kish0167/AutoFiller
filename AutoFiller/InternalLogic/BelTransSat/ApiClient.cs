@@ -40,7 +40,7 @@ public class ApiClient
 
         if (response.IsSuccessStatusCode)
         {
-            Logger.Log("\tResponse acquired for date: " + date.ToString("yyyy-MM-dd") + "\n");
+            Logger.Log("\tResponse acquired for date: " + date.ToString("yyyy-MM-dd"));
             string jsonResponse = await response.Content.ReadAsStringAsync();
             RootObject rootObject = JsonSerializer.Deserialize<RootObject>(jsonResponse);
             _responsesPool.Add(new Response(date, rootObject));

@@ -19,8 +19,6 @@ namespace DataTracker.Excel
             Logger.Log("Starting updating process...");
             ExcelWorkbook workbook = _excelFileManager.Package.Workbook;
 
-            _excelFileManager.ArchiveData();
-
             // Clean old data
             DataCleaner cleaner = new DataCleaner();
             cleaner.CleanOldData(workbook);
